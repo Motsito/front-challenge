@@ -1,0 +1,2 @@
+body{background-color:#ede6d3;overflow:hidden}#parent{border-radius:5px;height:80%;justify-content:center;width:80vw}.button,.buttonsRow{display:flex;justify-content:center}.button{align-items:center;border:none;border-radius:50%;color:#fff;cursor:pointer;height:6rem;margin:30px 10px;width:6rem}.button:hover{border:1px solid #000}.add-moveable{background-color:#6a994e}.remove-moveable{background-color:#bc4749}.draggable{cursor:grab}.draggable:focus{cursor:grabbing}
+/*# sourceMappingURL=main.a259d8ca.css.map*/
