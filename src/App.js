@@ -41,6 +41,7 @@ const App = () => {
 
     setMoveableComponents([
       ...moveableComponents,
+      //setting up every setting of the new element
       {
         id: img.id,
         top: 0,
@@ -49,13 +50,12 @@ const App = () => {
         height: 100,
         imgUrl: img.url,
         objFit: OBJ_FITS[Math.floor(Math.random() * OBJ_FITS.length)],
-        updateEnd: true,
       },
     ]);
   };
 
   //remove elements function
-  const removeMovable = (id) => {
+  const removeMovable = () => {
     setMoveableComponents((current) =>
       current.filter((object) => {
         // 👇️ remove object that has id equal to selected element
@@ -65,51 +65,33 @@ const App = () => {
   };
 
   //update moveable size function
-  const updateMoveable = (id, newComponent, updateEnd = false) => {
-    //
-    const updatedMoveables = moveableComponents.map((moveable) => {
-      if (moveable.id === id) {
-        return { id, ...newComponent, updateEnd };
+  const updateMoveable = (id, newComponent) => {
+    //id === element id, newComponent === new element settings
+
+    const updatedMoveables = moveableComponents.map((item) => {
+      if (item.id === id) {
+        return { id, ...newComponent };
       }
-      return moveable;
+      return item;
     });
     setMoveableComponents(updatedMoveables);
-  };
-
-  const handleResizeStart = (_, e) => {
-    console.log("e", e.direction);
-    // Check if the resize is coming from the left handle
-    const [handlePosX] = e.direction;
-    // 0 => center
-    // -1 => top or left
-    // 1 => bottom or right
-
-    // -1, -1
-    // -1, 0
-    // -1, 1
-    if (handlePosX === -1) {
-      console.log("width", moveableComponents, e);
-    }
   };
 
   return (
     <main style={{ height: "100vh", width: "100vw" }}>
       <div className="buttonsRow">
-        <button className="button" onClick={addMoveable}>
+        <button className="button add-moveable" onClick={addMoveable}>
           Add Moveable1
         </button>
-        <button className="button" onClick={() => removeMovable(selected)}>
+        <button className="button remove-moveable" onClick={removeMovable}>
           Remove Moveable
         </button>
       </div>
-      {/* {console.log(imgsArr)} */}
       <div
         id="parent"
         style={{
           position: "relative",
           background: "black",
-          height: "80vh",
-          width: "80vw",
           overflow: "hidden",
           margin: "auto",
         }}
@@ -119,7 +101,6 @@ const App = () => {
             {...item}
             key={index}
             updateMoveable={updateMoveable}
-            handleResizeStart={handleResizeStart}
             setSelected={setSelected}
             isSelected={selected === item.id}
           />
@@ -138,7 +119,6 @@ const Component = ({
   width,
   height,
   index,
-  color,
   imgUrl,
   objFit,
   id,
@@ -153,7 +133,6 @@ const Component = ({
     width,
     height,
     index,
-    color,
     objFit,
     imgUrl,
     id,
@@ -180,7 +159,6 @@ const Component = ({
       left,
       width: newWidth,
       height: newHeight,
-      color,
       imgUrl,
       objFit,
     });
@@ -216,7 +194,6 @@ const Component = ({
         left,
         width: newWidth,
         height: newHeight,
-        color,
         imgUrl,
         objFit,
       },
@@ -252,7 +229,6 @@ const Component = ({
             left: e.left,
             width,
             height,
-            color,
             imgUrl,
             objFit,
           });
@@ -266,6 +242,15 @@ const Component = ({
         zoom={1}
         origin={false}
         padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
+        verticalGuidelines={[50, 150, 200, 250, 300, 350, 400, 450, 550]}
+        horizontalGuidelines={[50, 150, 200, 250, 300, 350, 400, 450, 550]}
+        snappable={true}
+        snapDirections={{
+          top: true,
+          left: true,
+          bottom: true,
+          right: true,
+        }}
       />
     </>
   );
